@@ -66,6 +66,15 @@ class WeatherApp extends StatelessWidget {
 /**
 *InheritedWidget給整個Widget tree 訪問同個狀態(state)的權限。
  **/
+
+/**
+* 在BLoC中，您可以通過使用BlocBuilder<MyBloc, MyBlocState>和當前add事件來根據當前BlocState構建窗口小部件，
+ * 並BlocProvider.of<MyBloc>(context)更改事件以更改該值。
+
+    使用InheritedWidgets，您可以通過獲取當前狀態context.inheritFromWidgetOfExactType(MyInheritedWidget)。
+    但是InheritedWidgets是不可變的（標記了字段final）。您只能通過重建整個窗口小部件來更改狀態。
+    這就是為什麼InheritedWidget主要用於東西，很少變動：Theme，MediaQuery，Localization等。
+* */
 class AppStateContainer extends StatefulWidget {
   final Widget child;
 
