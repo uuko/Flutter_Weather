@@ -29,6 +29,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
+
+  #Add below dependencies based on your requirement
+  path_provider: ^1.6.11
+  android_alarm_manager: ^0.4.1+6
+
+  # android_intent: ^0.3.0+2
+
+  flutter_local_notifications: ^0.7.1+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

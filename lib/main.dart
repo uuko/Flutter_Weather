@@ -8,17 +8,41 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/themes.dart';
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+FlutterLocalNotificationsPlugin localNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 void main() {
-
   runApp(AppStateContainer(child: WeatherApp()));
 }
 
+void initializeNotifications() async {
+  var initializeAndroid = AndroidInitializationSettings('ic_launcher');
+  var initializeIOS = IOSInitializationSettings();
+  var initSettings = InitializationSettings(initializeAndroid, initializeIOS);
+  await localNotificationsPlugin.initialize(initSettings);
+}
+Future singleNotification(
+    DateTime datetime, String message, String subtext, int hashcode,
+    {String sound}) async {
+  var androidChannel = AndroidNotificationDetails(
+    'channel-id',
+    'channel-name',
+    'channel-description',
+    importance: Importance.Max,
+    priority: Priority.Max,
+  );
 
+  var iosChannel = IOSNotificationDetails();
+  var platformChannel = NotificationDetails(androidChannel, iosChannel);
 
-
+  localNotificationsPlugin.schedule(
+      hashcode, message, subtext, datetime, platformChannel,
+      payload: hashcode.toString());
+}
 
 class WeatherApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,13 +55,7 @@ class WeatherApp extends StatelessWidget {
   }
 }
 
-/// top level widget to hold application state
 
-
-
-
-
-/// state is passed down with an inherited widget
 
 class AppStateContainer extends StatefulWidget {
   final Widget child;

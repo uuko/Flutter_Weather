@@ -195,6 +195,26 @@ class ShowWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeNotifications();
+    DateTime now = DateTime.now().toUtc().add(
+      Duration(seconds: 1),
+    );
+    var topText="";
+    if(weather.getTemp>20) {
+      topText = "溫度適宜";
+    }
+    else if(weather.getTemp<20 && weather.getTemp>10){
+      topText = "穿多點，有點冷";
+    }
+    else if(weather.getTemp<10){
+      topText = "超超超超超級冷哦，請包成粽子吧";
+    }
+     singleNotification(
+        now,
+        topText,
+        weather.getTemp.toString()+"度",
+        98123871,
+    );
     return Container(
         padding: EdgeInsets.only(right: 32, left: 32, top: 10),
         child: Column(
@@ -231,8 +251,9 @@ class ShowWeather extends StatelessWidget {
               height: 50,
               child: FlatButton(
                 shape: new RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                onPressed: (){
+                onPressed: () async{
                   BlocProvider.of<WeatherBloc>(context).add(ResetWeather());
+
                 },
                 color: Colors.lightBlue,
                 child: Text("Search", style: TextStyle(color: AppStateContainer.of(context).theme.accentColor, fontSize: 16),),
