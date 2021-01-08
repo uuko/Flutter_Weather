@@ -10,21 +10,23 @@ import 'src/themes.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-FlutterLocalNotificationsPlugin localNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+
 void main() {
   runApp(AppStateContainer(child: WeatherApp()));
 }
 
+/**
+*   發通知
+* */
+FlutterLocalNotificationsPlugin localNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 void initializeNotifications() async {
   var initializeAndroid = AndroidInitializationSettings('ic_launcher');
   var initializeIOS = IOSInitializationSettings();
   var initSettings = InitializationSettings(initializeAndroid, initializeIOS);
   await localNotificationsPlugin.initialize(initSettings);
 }
-Future singleNotification(
-    DateTime datetime, String message, String subtext, int hashcode,
-    {String sound}) async {
+Future singleNotification(DateTime datetime, String message, String subtext, int hashcode, {String sound}) async {
   var androidChannel = AndroidNotificationDetails(
     'channel-id',
     'channel-name',
@@ -41,6 +43,10 @@ Future singleNotification(
       payload: hashcode.toString());
 }
 
+
+/**
+ *   第一頁路由
+ * */
 class WeatherApp extends StatelessWidget {
 
   @override
@@ -57,6 +63,9 @@ class WeatherApp extends StatelessWidget {
 
 
 
+/**
+*InheritedWidget給整個Widget tree 訪問同個狀態(state)的權限。
+ **/
 class AppStateContainer extends StatefulWidget {
   final Widget child;
 
@@ -65,6 +74,7 @@ class AppStateContainer extends StatefulWidget {
   @override
   _AppStateContainerState createState() => _AppStateContainerState();
 
+//  of 是拿共用資料的
   static _AppStateContainerState of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(_InheritedStateContainer)
             as _InheritedStateContainer)
